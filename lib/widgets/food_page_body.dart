@@ -92,6 +92,88 @@ class _FoodPageBodyState extends State<FoodPageBody> {
           ],
         ),
       ),
+      //** List of foods */
+      ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Container(
+            margin: EdgeInsets.only(
+              left: Dimensions.width20,
+              right: Dimensions.width20,
+              bottom: Dimensions.height10,
+            ),
+            child: Row(
+              children: [
+                //**Image container */
+                Container(
+                  height: Dimensions.listViewImgSize,
+                  width: Dimensions.listViewImgSize,
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.circular(Dimensions.borderRadius20),
+                    color: Colors.white38,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage("assets/images/food${index + 1}.jpg"),
+                    ),
+                  ),
+                ),
+                //**Text Container */
+                Expanded(
+                  child: Container(
+                    height: Dimensions.listViewTextConSize,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(Dimensions.borderRadius20),
+                        bottomRight: Radius.circular(Dimensions.borderRadius20),
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: Dimensions.width10,
+                        right: Dimensions.width10,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          BigText(text: "Nutritious Food meal in Bangladesh"),
+                          SizedBox(height: Dimensions.height10),
+                          SmallText(text: "With Bangladeshi characteristics"),
+                          SizedBox(height: Dimensions.height10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconAndTextWidget(
+                                icon: Icons.circle_sharp,
+                                text: "Normal",
+                                iconColor: AppColors.iconColor1,
+                              ),
+                              IconAndTextWidget(
+                                icon: Icons.location_on,
+                                text: "1.7km",
+                                iconColor: AppColors.mainColor,
+                              ),
+                              IconAndTextWidget(
+                                icon: Icons.access_time_rounded,
+                                text: "32min",
+                                iconColor: AppColors.iconColor2,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     ]);
   }
 
