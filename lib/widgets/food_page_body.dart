@@ -132,8 +132,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                 left: Dimensions.width10, right: Dimensions.width10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Dimensions.borderRadius30),
-              color:
-                  index % 2 == 0 ? AppColors.yellowColor : AppColors.mainColor,
+              color: AppColors.textColor,
               image: DecorationImage(
                 fit: BoxFit.cover,
                 image: AssetImage("assets/images/food${index + 1}.jpg"),
