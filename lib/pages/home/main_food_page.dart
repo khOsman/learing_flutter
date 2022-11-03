@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:learing_flutter/utils/colors.dart';
 import 'package:learing_flutter/utils/dimensions.dart';
 import 'package:learing_flutter/widgets/big_text.dart';
-import 'package:learing_flutter/widgets/food_page_body.dart';
+import 'package:learing_flutter/pages/home/food_page_body.dart';
 import 'package:learing_flutter/widgets/small_text.dart';
 
 class MainFoodPage extends StatefulWidget {
