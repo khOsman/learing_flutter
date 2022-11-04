@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:learing_flutter/utils/colors.dart';
 import 'package:learing_flutter/utils/dimensions.dart';
+import 'package:learing_flutter/utils/dummy_text.dart';
 import 'package:learing_flutter/widgets/app_icon.dart';
 import 'package:learing_flutter/widgets/app_item_brief.dart';
 import 'package:learing_flutter/widgets/big_text.dart';
+import 'package:learing_flutter/widgets/expandable_text.dart';
 
 class PopularFoodDetail extends StatelessWidget {
   const PopularFoodDetail({super.key});
@@ -42,7 +44,7 @@ class PopularFoodDetail extends StatelessWidget {
               ],
             ),
           ),
-          //** Food Details */
+          //** Introduction of Food  */
           Positioned(
             left: 0,
             right: 0,
@@ -67,6 +69,13 @@ class PopularFoodDetail extends StatelessWidget {
                   AppItemBrief(text: "Cup Cake"),
                   SizedBox(height: Dimensions.height20),
                   BigText(text: "Introduction"),
+                  SizedBox(height: Dimensions.height20),
+                  //** Expandable text widget */
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: ExpandableText(text: DummyText.paragraph),
+                    ),
+                  ),
                 ],
               ),
             ),
