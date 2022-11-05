@@ -6,6 +6,7 @@ import 'package:learing_flutter/pages/food/popular_food_details.dart';
 import 'package:learing_flutter/pages/food/recommended_food_details.dart';
 import 'package:learing_flutter/pages/home/main_food_page.dart';
 import 'package:get/get.dart';
+import 'package:learing_flutter/routes/route_helper.dart';
 import 'helper/dependencies.dart' as dep;
 
 Future<void> main() async {
@@ -26,12 +27,11 @@ class MyApp extends StatelessWidget {
     Get.find<RecommendedProductController>().getRecommendedProductList();
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'FlutterFood',
       home:
           MainFoodPage(), //RecommendedFoodDetail(), //PopularFoodDetail(), //MainFoodPage(),
+      initialRoute: RouteHelper.getInitial(),
+      getPages: RouteHelper.routes,
     );
   }
 }

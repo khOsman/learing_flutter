@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:learing_flutter/controller/popular_product_controller.dart';
 import 'package:learing_flutter/controller/recommended_product_controller.dart';
 import 'package:learing_flutter/models/popular_models.dart';
+import 'package:learing_flutter/pages/food/popular_food_details.dart';
+import 'package:learing_flutter/routes/route_helper.dart';
 import 'package:learing_flutter/utils/app_constants.dart';
 import 'package:learing_flutter/utils/colors.dart';
 import 'package:learing_flutter/utils/dimensions.dart';
@@ -45,12 +47,13 @@ class _FoodPageBodyState extends State<FoodPageBody> {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      //** Slider Section*/
+      //** Popular Food Slider Section*/
       GetBuilder<PopularProductController>(builder: ((popularProducts) {
         return popularProducts.isLoaded
             ? Container(
                 // color: Colors.redAccent,
                 height: Dimensions.pageView,
+
                 child: PageView.builder(
                   controller: pageController,
                   itemCount: popularProducts.popularProductList.length,
@@ -109,7 +112,7 @@ class _FoodPageBodyState extends State<FoodPageBody> {
           ],
         ),
       ),
-      //** List of foods */
+      //** Recommended Food List of foods */
       GetBuilder<RecommendedProductController>(builder: ((recommendedProduct) {
         return recommendedProduct.isLoaded
             ? ListView.builder(
@@ -117,88 +120,95 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                 shrinkWrap: true,
                 itemCount: recommendedProduct.recommendedProductList.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(
-                      left: Dimensions.width20,
-                      right: Dimensions.width20,
-                      bottom: Dimensions.height10,
-                    ),
-                    child: Row(
-                      children: [
-                        //**Image container */
-                        Container(
-                          height: Dimensions.listViewImgSize,
-                          width: Dimensions.listViewImgSize,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                                Dimensions.borderRadius20),
-                            color: Colors.white38,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                AppConstants.IMAGE_BASE_URL +
-                                    recommendedProduct
-                                        .recommendedProductList[index].img!,
-                              ),
-                            ),
-                          ),
-                        ),
-                        //**Text Container */
-                        Expanded(
-                          child: Container(
-                            height: Dimensions.listViewTextConSize,
+                  return GestureDetector(
+                    onTap: () {
+                      Get.toNamed(RouteHelper.getRecommendedFood(index));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                        left: Dimensions.width20,
+                        right: Dimensions.width20,
+                        bottom: Dimensions.height10,
+                      ),
+                      child: Row(
+                        children: [
+                          //**Image container */
+                          Container(
+                            height: Dimensions.listViewImgSize,
+                            width: Dimensions.listViewImgSize,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topRight:
-                                    Radius.circular(Dimensions.borderRadius20),
-                                bottomRight:
-                                    Radius.circular(Dimensions.borderRadius20),
-                              ),
-                              color: Colors.white,
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left: Dimensions.width10,
-                                right: Dimensions.width10,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  BigText(
-                                      text: recommendedProduct
-                                          .recommendedProductList[index].name!),
-                                  SizedBox(height: Dimensions.height10),
-                                  SmallText(
-                                      text: "With Bangladeshi characteristics"),
-                                  SizedBox(height: Dimensions.height10),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      IconAndTextWidget(
-                                        icon: Icons.circle_sharp,
-                                        text: "Normal",
-                                        iconColor: AppColors.iconColor1,
-                                      ),
-                                      IconAndTextWidget(
-                                        icon: Icons.location_on,
-                                        text: "1.7km",
-                                        iconColor: AppColors.mainColor,
-                                      ),
-                                      IconAndTextWidget(
-                                        icon: Icons.access_time_rounded,
-                                        text: "32min",
-                                        iconColor: AppColors.iconColor2,
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                              borderRadius: BorderRadius.circular(
+                                  Dimensions.borderRadius20),
+                              color: Colors.white38,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: NetworkImage(
+                                  AppConstants.IMAGE_BASE_URL +
+                                      recommendedProduct
+                                          .recommendedProductList[index].img!,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          //**Text Container */
+                          Expanded(
+                            child: Container(
+                              height: Dimensions.listViewTextConSize,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(
+                                      Dimensions.borderRadius20),
+                                  bottomRight: Radius.circular(
+                                      Dimensions.borderRadius20),
+                                ),
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: Dimensions.width10,
+                                  right: Dimensions.width10,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    BigText(
+                                        text: recommendedProduct
+                                            .recommendedProductList[index]
+                                            .name!),
+                                    SizedBox(height: Dimensions.height10),
+                                    SmallText(
+                                        text:
+                                            "With Bangladeshi characteristics"),
+                                    SizedBox(height: Dimensions.height10),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        IconAndTextWidget(
+                                          icon: Icons.circle_sharp,
+                                          text: "Normal",
+                                          iconColor: AppColors.iconColor1,
+                                        ),
+                                        IconAndTextWidget(
+                                          icon: Icons.location_on,
+                                          text: "1.7km",
+                                          iconColor: AppColors.mainColor,
+                                        ),
+                                        IconAndTextWidget(
+                                          icon: Icons.access_time_rounded,
+                                          text: "32min",
+                                          iconColor: AppColors.iconColor2,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -241,17 +251,22 @@ class _FoodPageBodyState extends State<FoodPageBody> {
       transform: matrix,
       child: Stack(
         children: [
-          Container(
-            height: Dimensions.pageViewContainer,
-            margin: EdgeInsets.only(
-                left: Dimensions.width10, right: Dimensions.width10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(Dimensions.borderRadius30),
-              color: AppColors.textColor,
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    AppConstants.IMAGE_BASE_URL + popularProduct.img!),
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(RouteHelper.getPopularFood(index));
+            },
+            child: Container(
+              height: Dimensions.pageViewContainer,
+              margin: EdgeInsets.only(
+                  left: Dimensions.width10, right: Dimensions.width10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(Dimensions.borderRadius30),
+                color: AppColors.textColor,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                      AppConstants.IMAGE_BASE_URL + popularProduct.img!),
+                ),
               ),
             ),
           ),
@@ -289,7 +304,9 @@ class _FoodPageBodyState extends State<FoodPageBody> {
                   left: Dimensions.width15,
                   right: Dimensions.width15,
                 ),
-                child: AppItemBrief(text: popularProduct.name!),
+                child: AppItemBrief(
+                  productModel: popularProduct,
+                ),
               ),
             ),
           ),

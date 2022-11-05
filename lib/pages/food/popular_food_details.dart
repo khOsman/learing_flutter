@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:learing_flutter/controller/popular_product_controller.dart';
+import 'package:learing_flutter/pages/home/food_page_body.dart';
+import 'package:learing_flutter/pages/home/main_food_page.dart';
+import 'package:learing_flutter/routes/route_helper.dart';
+import 'package:learing_flutter/utils/app_constants.dart';
 import 'package:learing_flutter/utils/colors.dart';
 import 'package:learing_flutter/utils/dimensions.dart';
 import 'package:learing_flutter/utils/dummy_text.dart';
@@ -8,10 +14,14 @@ import 'package:learing_flutter/widgets/big_text.dart';
 import 'package:learing_flutter/widgets/expandable_text.dart';
 
 class PopularFoodDetail extends StatelessWidget {
-  const PopularFoodDetail({super.key});
+  int pageId;
+  PopularFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var popularProduct =
+        Get.find<PopularProductController>().popularProductList[pageId];
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -26,7 +36,8 @@ class PopularFoodDetail extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: AssetImage("assets/images/food3.jpg"),
+                  image: NetworkImage(
+                      AppConstants.IMAGE_BASE_URL + popularProduct.img!),
                 ),
               ),
             ),
@@ -39,8 +50,16 @@ class PopularFoodDetail extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.arrow_back_ios),
-                AppIcon(icon: Icons.shopping_bag_outlined),
+                GestureDetector(
+                  onTap: (() {
+                    Get.toNamed(RouteHelper.getInitial());
+                  }),
+                  child: AppIcon(icon: Icons.arrow_back_ios),
+                ),
+                GestureDetector(
+                  onTap: (() {}),
+                  child: AppIcon(icon: Icons.shopping_bag_outlined),
+                ),
               ],
             ),
           ),
@@ -66,14 +85,17 @@ class PopularFoodDetail extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppItemBrief(text: "Cup Cake"),
+                  //** App item brief panel*/
+                  AppItemBrief(
+                    productModel: popularProduct,
+                  ),
                   SizedBox(height: Dimensions.height20),
                   BigText(text: "Introduction"),
                   SizedBox(height: Dimensions.height20),
                   //** Expandable text widget */
                   Expanded(
                     child: SingleChildScrollView(
-                      child: ExpandableText(text: DummyText.paragraph),
+                      child: ExpandableText(text: popularProduct.description!),
                     ),
                   ),
                 ],
@@ -130,7 +152,7 @@ class PopularFoodDetail extends StatelessWidget {
                 right: Dimensions.width20,
               ),
               child: BigText(
-                text: "\$10 | Add to Cart",
+                text: "\$ ${popularProduct.price!} | Add to Cart",
                 color: Colors.white,
               ),
               decoration: BoxDecoration(

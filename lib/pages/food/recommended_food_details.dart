@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:learing_flutter/controller/recommended_product_controller.dart';
+import 'package:learing_flutter/routes/route_helper.dart';
+import 'package:learing_flutter/utils/app_constants.dart';
 import 'package:learing_flutter/utils/colors.dart';
 import 'package:learing_flutter/utils/dimensions.dart';
 import 'package:learing_flutter/utils/dummy_text.dart';
@@ -7,21 +11,34 @@ import 'package:learing_flutter/widgets/big_text.dart';
 import 'package:learing_flutter/widgets/expandable_text.dart';
 
 class RecommendedFoodDetail extends StatelessWidget {
-  const RecommendedFoodDetail({super.key});
+  final int pageId;
+
+  RecommendedFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var recommendedProduct =
+        Get.find<RecommendedProductController>().recommendedProductList[pageId];
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             toolbarHeight: (Dimensions.height20 * 4),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppIcon(icon: Icons.clear),
-                AppIcon(icon: Icons.shopping_bag_outlined),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed(RouteHelper.getInitial());
+                  },
+                  child: AppIcon(icon: Icons.clear),
+                ),
+                GestureDetector(
+                  child: AppIcon(icon: Icons.shopping_bag_outlined),
+                ),
               ],
             ),
             bottom: PreferredSize(
@@ -30,7 +47,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                 child: Center(
                   child: BigText(
                     size: Dimensions.fontSize26,
-                    text: "Cup Cake",
+                    text: recommendedProduct.name!,
                   ),
                 ),
                 width: double.maxFinite,
@@ -51,8 +68,8 @@ class RecommendedFoodDetail extends StatelessWidget {
             backgroundColor: AppColors.yellowColor,
             expandedHeight: (Dimensions.height100 * 3),
             flexibleSpace: FlexibleSpaceBar(
-              background: Image.asset(
-                "assets/images/food3.jpg",
+              background: Image.network(
+                AppConstants.IMAGE_BASE_URL + recommendedProduct.img!,
                 width: double.maxFinite,
                 fit: BoxFit.cover,
               ),
@@ -66,7 +83,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                     left: Dimensions.width20,
                     right: Dimensions.width20,
                   ),
-                  child: ExpandableText(text: DummyText.longParagraph),
+                  child: ExpandableText(text: recommendedProduct.description!),
                 ),
               ],
             ),
@@ -94,7 +111,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                   icon: Icons.remove,
                 ),
                 BigText(
-                  text: "\$12.88 " + "X" + " 0",
+                  text: "\$ ${recommendedProduct.price!} " + "X" + " 0",
                   color: AppColors.mainBlackColor,
                   size: Dimensions.fontSize26,
                 ),
@@ -151,7 +168,7 @@ class RecommendedFoodDetail extends StatelessWidget {
                     right: Dimensions.width20,
                   ),
                   child: BigText(
-                    text: "\$10 | Add to Cart",
+                    text: "\$ ${recommendedProduct.price!} | Add to Cart",
                     color: Colors.white,
                   ),
                   decoration: BoxDecoration(
